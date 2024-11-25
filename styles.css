@@ -109,24 +109,61 @@ h2 {
     font-size: 2.5rem;
 }
 
-/* About Section */
-.about-section {
+/* Education Section */
+.education-section {
     background-color: var(--background-color);
 }
 
-.about-content {
+.education-content {
     max-width: 800px;
     margin: 0 auto;
 }
 
-.skills {
-    margin-top: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+.education-entry {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.skill-tag {
+.education-entry h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.school-name {
+    font-weight: 500;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.education-date {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.education-details {
+    list-style-position: inside;
+    margin-bottom: 1.5rem;
+}
+
+.education-details li {
+    margin-bottom: 0.5rem;
+}
+
+.relevant-courses h4 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.course-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.course-tag {
     background-color: var(--secondary-color);
     color: var(--white);
     padding: 0.5rem 1rem;
