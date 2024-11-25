@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Portfolio</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <nav>
+            <div class="logo">[YN]</div>
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
@@ -19,43 +22,78 @@
     </header>
 
     <main>
-        <section id="home">
-            <h1>Welcome to My Portfolio</h1>
-            <p>Hi, I'm William Shiber</p>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Welcome to My Portfolio</h1>
+                <p class="subtitle">Hi, I'm [Your Name] - a [Your Profession]</p>
+                <a href="#contact" class="cta-button">Get in Touch</a>
+            </div>
         </section>
 
-        <section id="about">
+        <section id="about" class="about-section">
             <h2>About Me</h2>
-            <p>Write a brief introduction about yourself here.</p>
-        </section>
-
-        <section id="projects">
-            <h2>My Projects</h2>
-            <div class="project-grid">
-                <!-- Project cards will go here -->
-                <div class="project-card">
-                    <h3>Project 1</h3>
-                    <p>Project description goes here</p>
-                </div>
-                <div class="project-card">
-                    <h3>Project 2</h3>
-                    <p>Project description goes here</p>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Write a brief introduction about yourself here.</p>
+                    <div class="skills">
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">CSS</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <!-- Add more skills as needed -->
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="contact">
+        <section id="projects" class="projects-section">
+            <h2>My Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-image"></div>
+                    <h3>Project 1</h3>
+                    <p>Project description goes here</p>
+                    <div class="project-links">
+                        <a href="#" class="project-link"><i class="fab fa-github"></i> View Code</a>
+                        <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image"></div>
+                    <h3>Project 2</h3>
+                    <p>Project description goes here</p>
+                    <div class="project-links">
+                        <a href="#" class="project-link"><i class="fab fa-github"></i> View Code</a>
+                        <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
             <h2>Contact Me</h2>
-            <form>
-                <input type="text" placeholder="Name" required>
-                <input type="email" placeholder="Email" required>
-                <textarea placeholder="Your message"></textarea>
-                <button type="submit">Send Message</button>
-            </form>
+            <div class="contact-container">
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your message" rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
         </section>
     </main>
 
     <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
         <p>&copy; 2024 [Your Name]. All rights reserved.</p>
     </footer>
 </body>
