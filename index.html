@@ -11,43 +11,93 @@
 <body>
     <header>
         <nav>
-            <div class="logo">[WS]</div>
+            <div class="logo">[willshiber]</div>
             <ul>
-                <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h1>Welcome to My Portfolio</h1>
-                <p class="subtitle">Hi, I'm William (Will) Shiber</p>
-                <a href="#contact" class="cta-button">Get in Touch</a>
-            </div>
-        </section>
+        <section id="about" class="about-section">
+            <div class="about-content">
+                <!-- Changed to horizontal layout -->
+                <div class="about-grid">
+                    <!-- Introduction and Current Project Card -->
+                    <div class="about-card">
+                        <div class="intro-flex">
+                            <img src="Images/Headshot1.jpeg" alt="Will Shiber" class="headshot">
+                            <div class="intro-text">
+                                <h3>William (Will) Shiber</h3>
+                                <p class="subtitle">Applied Mathematics and Statistics Student</p>
+                                <p class="school-name">Johns Hopkins University</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Current Project Section -->
+                        <div class="current-project">
+                            <h4>Current Project</h4>
+                            <div class="project-preview">
+                                <h5>Project Name</h5>
+                                <p class="project-description">Brief description of your current project and its goals. What problem are you solving?</p>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">Python</span>
+                                    <span class="tech-tag">TensorFlow</span>
+                                    <span class="tech-tag">Data Science</span>
+                                </div>
+                                <a href="#" class="project-link"><i class="fab fa-github"></i> View Progress</a>
+                            </div>
+                        </div>
+                    </div>
 
-        <section id="about" class="education-section">
-            <h2>Education</h2>
-            <div class="education-content">
-                <div class="education-entry">
-                    <h3>Degree Name</h3>
-                    <p class="school-name">Johns Hopkins University</p>
-                    <p class="education-date">20201- 2025</p>
-                    <ul class="education-details">
-                        <li>Major: Applied Mathematics and Statistics</li>
-                        <li>Focus: Statistical Learning, Stochastic Processes</li>
-                        <li>GPA: 3.8</li>
-                    </ul>
-                    <div class="relevant-courses">
-                        <h4>Relevant Coursework:</h4>
-                        <div class="course-tags">
-                            <span class="course-tag">Machine Learning</span>
-                            <span class="course-tag">Course 2</span>
-                            <span class="course-tag">Course 3</span>
+                    <!-- Education Card -->
+                    <div class="about-card">
+                        <div class="education-header">
+                            <h3>Education</h3>
+                            <img src="Images/Johns-Hopkins-University-Symbol.png" alt="JHU Logo" class="university-logo">
+                        </div>
+                        <!-- First Degree -->
+                        <div class="education-entry">
+                            <p class="school-name">Johns Hopkins University</p>
+                            <p class="education-date">2024 - 2025</p>
+                            <ul class="education-details">
+                                <li>Masters of Science Engineering (MSE) in Applied Mathematics and Statistics</li>
+                                <li>Focus Area: Statistical Learning</li>
+                            </ul>
+                            <div class="relevant-courses">
+                                <h4>Relevant Coursework:</h4>
+                                <div class="course-tags">
+                                    <span class="course-tag">Machine Learning</span>
+                                    <span class="course-tag">Bayesian Statistics</span>
+                                    <span class="course-tag">Graphical Nueral Networks</span>
+                                    <span class="course-tag">Monte Carlo Methods</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Second Degree -->
+                        <div class="education-entry">
+                            <p class="school-name">Johns Hopkins University</p>
+                            <p class="education-date">2021 - 2024</p>
+                            <ul class="education-details">
+                                <li>Bachelor of Science (BS) in Applied Mathematics and Statistics</li>
+                                <li>Focus Areas: Probability and Stochastic Processes, Financial Mathematics, Scientific Computing</li>
+                                <li>Hopkins Undergraduate Applied Mathematics Society (HUAMS), Student Athlete Advisory Committee (Executive Board)</li>
+                            </ul>
+                            <div class="relevant-courses">
+                                <h4>Relevant Coursework:</h4>
+                                <div class="course-tags">
+                                    <span class="course-tag">Statistics</span>
+                                    <span class="course-tag">Probability</span>
+                                    <span class="course-tag">Time Series</span>
+                                    <span class="course-tag">Real Analysis</span>
+                                    <span class="course-tag">Linear Algebra</span>
+                                    <span class="course-tag">Dynamical Systems</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,32 +128,133 @@
             </div>
         </section>
 
+        <section id="experience" class="experience-section">
+            <h2>Work Experience</h2>
+            <div class="experience-content">
+                <div class="experience-grid">
+                    <!-- First Position Card -->
+                    <div class="experience-card">
+                        <div class="experience-entry">
+                            <div class="experience-header">
+                                <h3>Machine Learning / Data Science Intern</h3>
+                                <p class="company-name">Divergent3D</p>
+                                <p class="experience-date">June 2024 - October 2024</p>
+                            </div>
+                            <ul class="experience-details">
+                                <li>Developed end-to-end production prioritization application used by over 500 techs and engineers daily</li>
+                                <li>Designed and launched manufacturing and program health dashboards. Increased on-time purchase order fulfillment by 50%</li>
+                                <li>Created machine learning models to predict part production time and facility capacities</li>
+                                <li>Refactored data streams using SQL and Azure to design data-pipelines establishing six tailored data-marts</li>
+                                <li>Collaborated cross-functionally to construct specialized KPI reports using SQL, Python, and Power BI, improving datadriven decision making</li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">SQL</span>
+                                <span class="tech-tag">Power BI</span>
+                                <span class="tech-tag">Azure</span>
+                                <span class="tech-tag">Spark</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Second Position Card -->
+                    <div class="experience-card">
+                        <div class="experience-entry">
+                            <div class="experience-header">
+                                <h3>Research Assistant</h3>
+                                <p class="company-name">Entropy for Energy (S4E), Johns Hopkins University</p>
+                                <p class="experience-date">January 2023 - Present</p>
+                            </div>
+                            <ul class="experience-details">
+                                <li>Utilized C++ and SQL to develop and implement a materials search API accessing over 3.5 million materials entries</li>
+                                <li>Improved AFLOW API over competitor APIs by implementing tensor-like and species/atom-specific property filtering</li>
+                                <li>Presented research and results at the Institute for Data Intensive Engineering and Science (IDIES) Annual Symposium and
+                                    the Ralph O'Connor Sustainable Energy Institute (ROSEI) Summit</li>
+                                <li><a href="https://www.s4e.ai" target="_blank">www.s4e.ai</a></li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">C++</span>
+                                <span class="tech-tag">Computational Physics</span>
+                                <span class="tech-tag">SQL</span>
+                                <span class="tech-tag">GitHub</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Third Position Card -->
+                    <div class="experience-card">
+                        <div class="experience-entry">
+                            <div class="experience-header">
+                                <h3>Head Teaching Assistant</h3>
+                                <p class="company-name">Johns Hopkins University</p>
+                                <p class="experience-date">January 2024 - Present</p>
+                            </div>
+                            <ul class="experience-details">
+                                <li>Head TA for graduate Data Science course containing over 250 students</li>
+                                <li>Created and graded assignments covering machine learning, statistical analysis, and data visualization</li>
+                                <li>Developed materials and taught review sessions covering core concepts in probability, statistics, and data analysis</li>
+                                <li>Wrote exams and grading rubrics for student assessment</li>
+                                <li>Managed 12 TAs to ensure student success</li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Jupyter Notebook</span>
+                                <span class="tech-tag">Communication</span>
+                                <span class="tech-tag">Management</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fourth Position Card -->
+                    <div class="experience-card">
+                        <div class="experience-entry">
+                            <div class="experience-header">
+                                <h3>Intern</h3>
+                                <p class="company-name">April Labs Inc.</p>
+                                <p class="experience-date">June 2022 - August 2023</p>
+                            </div>
+                            <ul class="experience-details">
+                                <li>Built and populated funding database to support research of potential VC and PE firms for capital raise</li>
+                                <li>Constructed NYC real estate agent and property manager databases</li>
+                                <li>Researched potential partners and created pitch notes to support analysis and negotiation</li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">APIs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="contact" class="contact-section">
             <h2>Contact Me</h2>
             <div class="contact-container">
-                <form class="contact-form">
-                    <div class="form-group">
-                        <input type="text" placeholder="Name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Email" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea placeholder="Your message" rows="5"></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
+                <div class="contact-info">
+                    <a href="mailto:wshiber1@jh.edu" class="contact-link">
+                        <i class="fas fa-envelope"></i>
+                        wshiber1@jh.edu
+                    </a>
+                    <a href="https://www.linkedin.com/in/william-shiber" target="_blank" class="contact-link">
+                        <i class="fab fa-linkedin"></i>
+                        LinkedIn
+                    </a>
+                    <a href="https://github.com/wjshiber" target="_blank" class="contact-link">
+                        <i class="fab fa-github"></i>
+                        GitHub
+                    </a>
+                </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-github"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-        </div>
-        <p>&copy; 2024 William Shiber. All rights reserved.</p>
+        <!-- <div class="social-links">
+            <a href="https://github.com/wjshiber" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/william-shiber" target="https://www.linkedin.com/in/william-shiber"><i class="fab fa-linkedin"></i></a>
+        </div> -->
+        <p>&copy; 2024 William Shiber - A chill dude.</p>
     </footer>
 </body>
 </html> 
