@@ -27,7 +27,7 @@
             <h2>NBA Game Predictions</h2>
             <div class="disclaimer">
                 <p>Last Updated: <span id="lastUpdated">Loading...</span></p>
-                <p>These predictions are generated using machine learning models and historical data. They are for entertainment purposes only.</p>
+                <p>These predictions are generated using machine learning models and historical data. Times are in EST. They are for entertainment purposes only.</p>
             </div>
             <div class="predictions-container">
                 <div class="predictions-table">
@@ -65,7 +65,8 @@
                 const firstRow = data.split('\n')[1];
                 const updateDate = firstRow.split(',')[0];
                 
-                const formattedUpdateDate = new Date(updateDate).toLocaleDateString('en-US', {
+                const updateDateTime = new Date(updateDate + 'T00:00:00-05:00');
+                const formattedUpdateDate = updateDateTime.toLocaleDateString('en-US', {
                     month: 'long',
                     day: 'numeric',
                     year: 'numeric'
@@ -83,8 +84,8 @@
                     
                     const tr = document.createElement('tr');
                     
-                    // Format date
-                    const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                    const gameDateTime = new Date(date + 'T00:00:00-05:00');
+                    const formattedDate = gameDateTime.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric'
                     });
