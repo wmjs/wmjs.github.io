@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Predictions - Will Shiber</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="nba_predictions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">[willshiber]</div>
+            <ul>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#experience">Experience</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="predictions-section">
+            <h2>NBA Game Predictions</h2>
+            <div class="disclaimer">
+                <p>Last Updated: <span id="lastUpdated">Loading...</span></p>
+                <p>These predictions are generated using machine learning models and historical data. They are for entertainment purposes only.</p>
+            </div>
+            <div class="predictions-container">
+                <div class="predictions-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Away Team</th>
+                                <th>Away Score</th>
+                                <th>Home Team</th>
+                                <th>Home Score</th>
+                                <th>Predicted Winner</th>
+                                <th>Predicted Win Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody id="predictions-body">
+                            <!-- JavaScript will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 William Shiber - A chill dude.</p>
+    </footer>
+
+    <script>
+        async function loadPredictions() {
+            try {
+                const response = await fetch('nba_predictions.csv');
+                const data = await response.text();
+                
+                const firstRow = data.split('\n')[1];
+                const updateDate = firstRow.split(',')[0];
+                
+                const formattedUpdateDate = new Date(updateDate).toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                document.getElementById('lastUpdated').textContent = formattedUpdateDate;
+                
+                const rows = data.split('\n').slice(1);
+                const tbody = document.getElementById('predictions-body');
+                
+                rows.forEach(row => {
+                    if (row.trim() === '') return; // Skip empty rows
+                    
+                    const [date, away, awayScore, home, homeScore, winner, spread] = row.split(',');
+                    if (!date) return; // Skip if no date
+                    
+                    const tr = document.createElement('tr');
+                    
+                    // Format date
+                    const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                    
+                    tr.innerHTML = `
+                        <td>${formattedDate}</td>
+                        <td>${away}</td>
+                        <td>${parseFloat(awayScore).toFixed(1)}</td>
+                        <td>${home}</td>
+                        <td>${parseFloat(homeScore).toFixed(1)}</td>
+                        <td>${winner}</td>
+                        <td>${parseFloat(spread).toFixed(1)}</td>
+                    `;
+                    
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Error loading predictions:', error);
+                document.getElementById('lastUpdated').textContent = 'Error loading date';
+            }
+        }
+
+        loadPredictions();
+    </script>
+</body>
+</html>
