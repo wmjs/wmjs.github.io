@@ -201,10 +201,9 @@ h2 {
 /* Projects Section */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    margin: 2rem 0;
 }
 
 .project-card {
@@ -530,5 +529,18 @@ nav ul {
     
     .university-logo {
         margin-top: 1rem;
+    }
+}
+
+/* Add this media query for responsiveness */
+@media (max-width: 1200px) {
+    .project-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .project-grid {
+        grid-template-columns: 1fr; /* 1 card per row on mobile */
     }
 }    
