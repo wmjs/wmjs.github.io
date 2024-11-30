@@ -1,12 +1,12 @@
 :root {
     --primary-color: #1a4d6d;
     --secondary-color: #34a0a4;
-    --accent-color: #76c893;
+    --accent-color: #78d398;
     --background-color: #f8f9fa;
     --text-color: #333;
     --white: #ffffff;
 }
-
+/* #34a0a4 */
 * {
     margin: 0;
     padding: 0;
@@ -158,9 +158,10 @@ h2 {
 }
 
 .school-name {
-    font-weight: 500;
-    color: var(--secondary-color);
+    font-weight: 800;
+    color: var(--primary-color);
     margin-bottom: 0.5rem;
+    font-size: 1.2rem;
 }
 
 .education-date {
@@ -543,4 +544,18 @@ nav ul {
     .project-grid {
         grid-template-columns: 1fr; /* 1 card per row on mobile */
     }
+}
+
+.subtitle {
+    color: var(--text-color);
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-bottom: 0.3em;
+}
+
+.institution-name {
+    color: #666;
+    font-size: 0.9em;
+    font-weight: 500;
+    margin-top: 0.2em;
 }    
