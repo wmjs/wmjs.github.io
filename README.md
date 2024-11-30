@@ -1,6 +1,8 @@
 # Personal Website Repository
 
-This repository contains the source code for my personal website, hosted via GitHub Pages.
+https://wmjs.github.io/index.html
+
+This repository contains the source code for my personal website, hosted via GitHub Pages. 
 
 ## Technologies Used
 
