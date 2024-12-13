@@ -45,6 +45,7 @@
                                 <th>Predicted Home Score</th>
                                 <th>Predicted Winner</th>
                                 <th>Predicted Win Margin</th>
+                                <th>Confidence</th>
                             </tr>
                         </thead>
                         <tbody id="predictions-body">
@@ -83,7 +84,7 @@
                 rows.forEach(row => {
                     if (row.trim() === '') return; // Skip empty rows
                     
-                    const [date, away, awayScore, home, homeScore, winner, spread] = row.split(',');
+                    const [date, away, awayScore, home, homeScore, winner, spread, confidence] = row.split(',');
                     if (!date) return; // Skip if no date
                     
                     const tr = document.createElement('tr');
@@ -102,6 +103,7 @@
                         <td>${parseFloat(homeScore).toFixed(1)}</td>
                         <td>${winner}</td>
                         <td>${parseFloat(spread).toFixed(1)}</td>
+                        <td>${parseFloat(confidence).toFixed(2)}</td>
                     `;
                     
                     tbody.appendChild(tr);
