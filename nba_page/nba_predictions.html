@@ -31,7 +31,7 @@
             <h2>NBA Game Predictions</h2>
             <div class="disclaimer">
                 <p>Last Updated: <span id="lastUpdated">Loading...</span></p>
-                <p>These predictions are generated using machine learning models and historical data. Times are in EST. They are for entertainment purposes only.</p>
+                <p>These predictions are generated using machine learning models and historical data. They are for entertainment purposes only. Confidence and Value columns are work in progress.</p>
                 <div class="view-selector">
                     <label for="viewType">Select View:</label>
                     <select id="viewType" onchange="updateTableView()">
@@ -86,10 +86,8 @@
             moneyline: [
                 { header: 'Date', key: 'date' },
                 { header: 'Away Team', key: 'away' },
-                { header: 'Away Money Line', key: 'awayML' },
                 { header: 'Away ML Implied Prob', key: 'awayMLProb' },
                 { header: 'Home Team', key: 'home' },
-                { header: 'Home Money Line', key: 'homeML' },
                 { header: 'Home ML Implied Prob', key: 'homeMLProb' },
                 { header: 'Predicted Winner', key: 'winner' },
                 { header: 'Model Confidence', key: 'confidence' },
