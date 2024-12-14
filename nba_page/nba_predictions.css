@@ -4,7 +4,7 @@
 }
 
 .predictions-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     background-color: var(--white);
     border-radius: 10px;
@@ -45,7 +45,7 @@ tr:hover {
 }
 
 .disclaimer {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto 2rem;
     padding: 1rem;
     background-color: var(--white);
@@ -83,4 +83,30 @@ tr:hover {
         margin: 0 -1rem 2rem;
         border-radius: 0;
     }
+} 
+
+.view-selector {
+    margin-top: 1rem;
+}
+
+.view-selector label {
+    margin-right: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.view-selector select {
+    padding: 0.5rem;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    background-color: var(--white);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.view-selector select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
 } 

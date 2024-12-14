@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NBA Predictions - Will Shiber</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <link rel="manifest" href="../favicon/site.webmanifest">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="nba_predictions.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -32,6 +32,15 @@
             <div class="disclaimer">
                 <p>Last Updated: <span id="lastUpdated">Loading...</span></p>
                 <p>These predictions are generated using machine learning models and historical data. Times are in EST. They are for entertainment purposes only.</p>
+                <div class="view-selector">
+                    <label for="viewType">Select View:</label>
+                    <select id="viewType" onchange="updateTableView()">
+                        <option value="basic">Basic Predictions</option>
+                        <option value="moneyline">Money Line Bets</option>
+                        <option value="spread">Spread Bets</option>
+                        <option value="overunder">Over/Under Bets</option>
+                    </select>
+                </div>
             </div>
             <div class="predictions-container">
                 <div class="predictions-table">
@@ -62,56 +71,138 @@
     </footer>
 
     <script>
+        const columnSets = {
+            basic: [
+                { header: 'Date', key: 'date' },
+                { header: 'Away Team', key: 'away' },
+                { header: 'Predicted Away Score', key: 'awayScore' },
+                { header: 'Home Team', key: 'home' },
+                { header: 'Predicted Home Score', key: 'homeScore' },
+                { header: 'Predicted Winner', key: 'winner' },
+                { header: 'Predicted Win Margin', key: 'spread' },
+                { header: 'Confidence', key: 'confidence' },
+                { header: 'Value?', key: 'value' }
+            ],
+            moneyline: [
+                { header: 'Date', key: 'date' },
+                { header: 'Away Team', key: 'away' },
+                { header: 'Away Money Line', key: 'awayML' },
+                { header: 'Away ML Implied Prob', key: 'awayMLProb' },
+                { header: 'Home Team', key: 'home' },
+                { header: 'Home Money Line', key: 'homeML' },
+                { header: 'Home ML Implied Prob', key: 'homeMLProb' },
+                { header: 'Predicted Winner', key: 'winner' },
+                { header: 'Model Confidence', key: 'confidence' },
+                { header: 'Book Winner', key: 'bookWinner' },
+                { header: 'Value?', key: 'value' }
+
+            ],
+            spread: [
+                { header: 'Date', key: 'date' },
+                { header: 'Away Team', key: 'away' },
+                { header: 'Away Spread', key: 'awaySpread' },
+                { header: 'Away Spread Odds', key: 'awaySpreadOdds' },
+                { header: 'Home Team', key: 'home' },
+                { header: 'Home Spread', key: 'homeSpread' },
+                { header: 'Home Spread Odds', key: 'homeSpreadOdds' },
+                { header: 'Model Predicted Spread', key: 'spread' }
+            ],
+            overunder: [
+                { header: 'Date', key: 'date' },
+                { header: 'Teams', key: 'matchup' },
+                { header: 'Predicted Home Score', key: 'homeScore' },
+                { header: 'Predicted Away Score', key: 'awayScore' },
+                { header: 'Over Line', key: 'overLine' },
+                { header: 'Over Odds', key: 'overOdds' },
+                { header: 'Under Line', key: 'underLine' },
+                { header: 'Under Odds', key: 'underOdds' },
+            ]
+        };
+
+        let predictionsData = [];
+
         async function loadPredictions() {
             try {
-                const response = await fetch('nba_predictions.csv');
+                const response = await fetch('nba_display.csv');
                 const data = await response.text();
                 
-                const firstRow = data.split('\n')[1];
-                const updateDate = firstRow.split(',')[0];
+                const rows = data.split('\n').slice(1);
+                predictionsData = rows.map(row => {
+                    const cols = row.split(',');
+                    return {
+                        date: cols[0],
+                        away: cols[1],
+                        awayScore: cols[2],
+                        home: cols[3],
+                        homeScore: cols[4],
+                        winner: cols[5],
+                        spread: cols[6],
+                        confidence: cols[7],
+                        awayML: cols[8],
+                        awayMLOdds: cols[9],
+                        awayMLProb: cols[10],
+                        homeML: cols[11],
+                        homeMLOdds: cols[12],
+                        homeMLProb: cols[13],
+                        awaySpread: cols[14],
+                        awaySpreadOdds: cols[15],
+                        awaySpreadProb: cols[16],
+                        homeSpread: cols[17],
+                        homeSpreadOdds: cols[18],
+                        homeSpreadProb: cols[19],
+                        overLine: cols[20],
+                        overOdds: cols[21],
+                        overProb: cols[22],
+                        underLine: cols[23],
+                        underOdds: cols[24],
+                        underProb: cols[25],
+                        matchup: `${cols[1]} @ ${cols[3]}`,
+                        bookWinner: cols[26],
+                        value: cols[27]
+                    };
+                });
                 
-                const updateDateTime = new Date(updateDate + 'T00:00:00-05:00');
-                const formattedUpdateDate = updateDateTime.toLocaleDateString('en-US', {
+                updateTableView();
+                
+                // Set last updated date from first row
+                const updateDateTime = new Date(predictionsData[0].date + 'T00:00:00-05:00');
+                document.getElementById('lastUpdated').textContent = updateDateTime.toLocaleDateString('en-US', {
                     month: 'long',
                     day: 'numeric',
                     year: 'numeric'
-                });
-                document.getElementById('lastUpdated').textContent = formattedUpdateDate;
-                
-                const rows = data.split('\n').slice(1);
-                const tbody = document.getElementById('predictions-body');
-                
-                rows.forEach(row => {
-                    if (row.trim() === '') return; // Skip empty rows
-                    
-                    const [date, away, awayScore, home, homeScore, winner, spread, confidence] = row.split(',');
-                    if (!date) return; // Skip if no date
-                    
-                    const tr = document.createElement('tr');
-                    
-                    const gameDateTime = new Date(date + 'T00:00:00-05:00');
-                    const formattedDate = gameDateTime.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric'
-                    });
-                    
-                    tr.innerHTML = `
-                        <td>${formattedDate}</td>
-                        <td>${away}</td>
-                        <td>${parseFloat(awayScore).toFixed(1)}</td>
-                        <td>${home}</td>
-                        <td>${parseFloat(homeScore).toFixed(1)}</td>
-                        <td>${winner}</td>
-                        <td>${parseFloat(spread).toFixed(1)}</td>
-                        <td>${parseFloat(confidence).toFixed(2)}</td>
-                    `;
-                    
-                    tbody.appendChild(tr);
                 });
             } catch (error) {
                 console.error('Error loading predictions:', error);
                 document.getElementById('lastUpdated').textContent = 'Error loading date';
             }
+        }
+
+        function updateTableView() {
+            const viewType = document.getElementById('viewType').value;
+            const columns = columnSets[viewType];
+            
+            // Update table headers
+            const thead = document.querySelector('thead tr');
+            thead.innerHTML = columns.map(col => `<th>${col.header}</th>`).join('');
+            
+            // Update table body
+            const tbody = document.getElementById('predictions-body');
+            tbody.innerHTML = predictionsData.map(row => {
+                if (!row.date) return ''; // Skip empty rows
+                const gameDateTime = new Date(row.date + 'T00:00:00-05:00');
+                const formattedDate = gameDateTime.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
+                });
+                
+                return `<tr>${columns.map(col => {
+                    let value = col.key === 'date' ? formattedDate : row[col.key];
+                    if (typeof value === 'string' && !isNaN(parseFloat(value))) {
+                        value = parseFloat(value).toFixed(1);
+                    }
+                    return `<td>${value || ''}</td>`;
+                }).join('')}</tr>`;
+            }).join('');
         }
 
         loadPredictions();
