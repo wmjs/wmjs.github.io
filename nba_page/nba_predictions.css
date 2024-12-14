@@ -110,3 +110,11 @@ tr:hover {
     border-color: var(--accent-color);
     box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
 } 
+.logo a {
+    text-decoration: none;
+    color: inherit;  /* This makes the link color match the parent element */
+}
+
+.logo a:hover {
+    cursor: pointer;
+}

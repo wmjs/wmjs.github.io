@@ -558,4 +558,13 @@ nav ul {
     font-size: 0.9em;
     font-weight: 500;
     margin-top: 0.2em;
+}
+
+.logo a {
+    text-decoration: none;
+    color: inherit;  /* This makes the link color match the parent element */
+}
+
+.logo a:hover {
+    cursor: pointer;
 }    
