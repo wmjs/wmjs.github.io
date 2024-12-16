@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Predictions Backtesting - Will Shiber</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <link rel="manifest" href="../favicon/site.webmanifest">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="nba_predictions.css">
+    <link rel="stylesheet" href="backtesting_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="../index.html">[willshiber]</a></div>
+            <ul>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="predictions-section">
+            <h2>NBA Predictions Backtesting Results</h2>
+            <div class="disclaimer">
+                <div class="nav-buttons">
+                    <a href="nba_predictions.html" class="nav-button">
+                        <i class="fas fa-arrow-left"></i> Back to Predictions
+                    </a>
+                </div>
+                <p>Updated as of: <span id="lastUpdated">Loading...</span></p>
+                <p>This page shows models performance over the whole season.</p>
+                <div class="summary-stats">
+                    <div class="model-stats single-model">
+                        <h3>Single Model Performance</h3>
+                        <p class="subheader">Backtested with model trained on whole season</p>
+                        <p>Games Analyzed: <span id="singleGames">-</span></p>
+                        <p>Accuracy: <span id="singleAccuracy">-</span></p>
+                        <p>Avg. Spread Error: <span id="singleSpreadError">-</span></p>
+                    </div>
+                    <div class="model-stats batch-model">
+                        <h3>Weekly Batch Model Performance</h3>
+                        <p class="subheader">Backtested with model trained by week (more accurate representation of model performance)</p>
+                        <p>Games Analyzed: <span id="batchGames">-</span></p>
+                        <p>Accuracy: <span id="batchAccuracy">-</span></p>
+                        <p>Avg. Spread Error: <span id="batchSpreadError">-</span></p>
+                    </div>
+                </div>
+                <div class="view-selector">
+                    <label for="viewMode">View Mode:</label>
+                    <select id="viewMode" onchange="updateTableView()">
+                        <option value="single">Single Game Results</option>
+                        <option value="batch">Batch Testing Results</option>
+                    </select>
+                </div>
+            </div>
+            <div class="predictions-container">
+                <div class="predictions-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <!-- Headers will be populated by JavaScript -->
+                            </tr>
+                        </thead>
+                        <tbody id="predictions-body">
+                            <!-- JavaScript will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>William Shiber</p>
+    </footer>
+
+    <script>
+        const columnSets = {
+            single: [
+                { header: 'Date', key: 'date' },  // index 0
+                { header: 'Away Team', key: 'awayTeamSingle' },  // index 2
+                { header: 'Away Points', key: 'awayPointsSingle' },  // index 10
+                { header: 'Home Team', key: 'homeTeamSingle' },  // index 1
+                { header: 'Home Points', key: 'homePointsSingle' },  // index 9
+                { header: 'Predicted Winner', key: 'predWinnerSingle' },  // index 4
+                { header: 'Actual Winner', key: 'actualWinnerSingle' },  // index 3
+                { header: 'Predicted Spread', key: 'predSpreadSingle' },  // index 6
+                { header: 'Actual Spread', key: 'actualSpreadSingle' },  // index 5
+                { header: 'Correct?', key: 'correctSingle' }  // index 8
+            ],
+            batch: [
+                { header: 'Date', key: 'date' },  // index 13
+                // { header: 'Week', key: 'dateWeekBatch' },  // index 13
+                { header: 'Away Team', key: 'awayTeamBatch' },  // index 15
+                { header: 'Away Points', key: 'awayPointsBatch' },  // index 23
+                { header: 'Home Team', key: 'homeTeamBatch' },  // index 14
+                { header: 'Home Points', key: 'homePointsBatch' },  // index 22
+                { header: 'Predicted Winner', key: 'predWinnerBatch' },  // index 17
+                { header: 'Actual Winner', key: 'actualWinnerBatch' },  // index 16
+                { header: 'Predicted Spread', key: 'predSpreadBatch' },  // index 19
+                { header: 'Actual Spread', key: 'actualSpreadBatch' },  // index 18
+                { header: 'Correct?', key: 'correctBatch' }  // index 21
+            ]
+        };
+
+        let predictionsData = [];
+
+        async function loadPredictions() {
+            try {
+                const response = await fetch('backtest_results.csv');
+                const data = await response.text();
+                
+                const rows = data.split('\n').slice(1);
+                predictionsData = rows.map(row => {
+                    const cols = row.split(',');
+                    return {
+                        date: cols[0],
+                        homeTeamSingle: cols[1],
+                        awayTeamSingle: cols[2],
+                        actualWinnerSingle: cols[3],
+                        predWinnerSingle: cols[4],
+                        actualSpreadSingle: cols[5],
+                        predSpreadSingle: cols[6],
+                        spreadErrorSingle: cols[7],
+                        correctSingle: cols[8],
+                        homePointsSingle: cols[9],
+                        awayPointsSingle: cols[10],
+                        predHomePointsSingle: cols[11],
+                        predAwayPointsSingle: cols[12],
+                        dateWeekBatch: cols[13],
+                        homeTeamBatch: cols[14],
+                        awayTeamBatch: cols[15],
+                        actualWinnerBatch: cols[16],
+                        predWinnerBatch: cols[17],
+                        actualSpreadBatch: cols[18],
+                        predSpreadBatch: cols[19],
+                        spreadErrorBatch: cols[20],
+                        correctBatch: cols[21],
+                        homePointsBatch: cols[22],
+                        awayPointsBatch: cols[23],
+                        predHomePointsBatch: cols[24],
+                        predAwayPointsBatch: cols[25]
+                    };
+                });
+                
+                updateTableView();
+                
+                // Set last updated date from last row
+                const updateDateTime = new Date(predictionsData[predictionsData.length - 2].date + 'T00:00:00-05:00');
+                document.getElementById('lastUpdated').textContent = updateDateTime.toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+            } catch (error) {
+                console.error('Error loading predictions:', error);
+                document.getElementById('lastUpdated').textContent = 'Error loading date';
+            }
+        }
+
+        function updateTableView() {
+            const viewMode = document.getElementById('viewMode').value;
+            const columns = columnSets[viewMode];
+            
+            // Update table headers
+            const thead = document.querySelector('thead tr');
+            thead.innerHTML = columns.map(col => `<th>${col.header}</th>`).join('');
+            
+            // Update table body
+            const tbody = document.getElementById('predictions-body');
+            tbody.innerHTML = predictionsData.map(row => {
+                if (!row.date) return ''; // Skip empty rows
+                
+                // Check if prediction was incorrect
+                const isCorrect = viewMode === 'single' ? row.correctSingle === 'True' : row.correctBatch === 'True';
+                const rowClass = !isCorrect ? 'class="incorrect"' : 'class="correct"';
+                
+                return `<tr ${rowClass}>${columns.map(col => {
+                    let value = row[col.key];
+                    
+                    // Handle date formatting for both single and batch views
+                    if (col.key === 'date') {
+                        const gameDateTime = new Date(value + 'T00:00:00-05:00');
+                        value = gameDateTime.toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric'
+                        });
+                    }
+                    
+                    // Handle week formatting for batch view
+                    if (col.key === 'dateWeekBatch') {
+                        const weekDate = new Date(value + 'T00:00:00-05:00');
+                        value = weekDate.toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric'
+                        });
+                    }
+
+                    if (typeof value === 'string' && !isNaN(parseFloat(value))) {
+                        // Format numbers to one decimal place
+                        value = parseFloat(value).toFixed(1);
+                    }
+                    
+                    // Add % symbol for accuracy and ROI in batch view
+                    if (col.key === 'accuracy' || col.key === 'roi') {
+                        value = value + '%';
+                    }
+                    
+                    return `<td>${value || ''}</td>`;
+                }).join('')}</tr>`;
+            }).join('');
+        }
+
+        async function loadSummaryStats() {
+            try {
+                const response = await fetch('backtest_summary.csv');
+                const data = await response.text();
+                
+                const rows = data.split('\n').slice(1); // Skip header
+                const stats = {};
+                
+                rows.forEach(row => {
+                    const [metric, single, batch] = row.split(',');
+                    stats[metric] = {
+                        single: parseFloat(single),
+                        batch: parseFloat(batch)
+                    };
+                });
+
+                // Update DOM with formatted values
+                document.getElementById('singleGames').textContent = stats['TotalGames'].single.toFixed(0);
+                document.getElementById('singleAccuracy').textContent = (stats['Accuracy'].single * 100).toFixed(1) + '%';
+                document.getElementById('singleSpreadError').textContent = stats['AverageSpreadError'].single.toFixed(1);
+                
+                document.getElementById('batchGames').textContent = stats['TotalGames'].batch.toFixed(0);
+                document.getElementById('batchAccuracy').textContent = (stats['Accuracy'].batch * 100).toFixed(1) + '%';
+                document.getElementById('batchSpreadError').textContent = stats['AverageSpreadError'].batch.toFixed(1);
+            } catch (error) {
+                console.error('Error loading summary stats:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPredictions();
+            loadSummaryStats();
+        });
+    </script>
+</body>
+</html>

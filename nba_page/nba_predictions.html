@@ -32,14 +32,17 @@
             <div class="disclaimer">
                 <p>Last Updated: <span id="lastUpdated">Loading...</span></p>
                 <p>Data is pulled from basketball-reference.com, lines are pulled from sportsline.com both are updated daily at 6 AM EST. These predictions are generated using machine learning models and historical data. They are for entertainment purposes only. Confidence and Value columns are work in progress.</p>
-                <div class="view-selector">
-                    <label for="viewType">Select View:</label>
-                    <select id="viewType" onchange="updateTableView()">
-                        <option value="basic">Basic Predictions</option>
-                        <option value="moneyline">Money Line Bets</option>
-                        <option value="spread">Spread Bets</option>
-                        <option value="overunder">Over/Under Bets</option>
-                    </select>
+                <div class="view-controls">
+                    <div class="view-selector">
+                        <label for="viewType">Select View:</label>
+                        <select id="viewType" onchange="updateTableView()">
+                            <option value="basic">Basic Predictions</option>
+                            <option value="moneyline">Money Line Bets</option>
+                            <option value="spread">Spread Bets</option>
+                            <option value="overunder">Over/Under Bets</option>
+                        </select>
+                    </div>
+                    <a href="backtesting.html" class="backtesting-button">View Backtesting Results</a>
                 </div>
             </div>
             <div class="predictions-container">
