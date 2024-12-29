@@ -221,7 +221,7 @@ h2 {
 
 .project-image {
     height: 200px;
-    background-color: var(--secondary-color);
+    background-color: var(--white);
 }
 
 .project-card h3 {
