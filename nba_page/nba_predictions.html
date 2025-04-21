@@ -30,42 +30,10 @@
     <main>
         <section class="predictions-section">
             <h2>NBA Game Predictions</h2>
-            <div class="disclaimer">
-                <p>Last Updated: <span id="lastUpdated">Loading...</span></p>
-                <p>Data is pulled from basketball-reference.com, lines are pulled from sportsline.com both are updated daily at 9 AM EST. These predictions are generated using machine learning models and historical data. They are for entertainment purposes only. Confidence and Value columns are work in progress.</p>
-                <div class="view-controls">
-                    <div class="view-selector">
-                        <label for="viewType">Select View:</label>
-                        <select id="viewType" onchange="updateTableView()">
-                            <option value="basic">Basic Predictions</option>
-                            <option value="moneyline">Money Line Bets</option>
-                            <option value="spread">Spread Bets</option>
-                            <option value="overunder">Over/Under Bets</option>
-                        </select>
-                    </div>
-                    <a href="backtesting.html" class="backtesting-button">View Backtesting Results</a>
-                </div>
-            </div>
-            <div class="predictions-container">
-                <div class="predictions-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Away Team</th>
-                                <th>Predicted Away Score</th>
-                                <th>Home Team</th>
-                                <th>Predicted Home Score</th>
-                                <th>Predicted Winner</th>
-                                <th>Predicted Win Margin</th>
-                                <th>Confidence</th>
-                            </tr>
-                        </thead>
-                        <tbody id="predictions-body">
-                            <!-- JavaScript will populate this -->
-                        </tbody>
-                    </table>
-                </div>
+            <div class="offseason-message">
+                <h3>Regular season has ended.</h3>
+                <p>Check back at the start of the 2024-25 season for new predictions!</p>
+                <a href="backtesting.html" class="previous-season-btn">View 2024-25 Season Results</a>
             </div>
         </section>
     </main>
@@ -74,140 +42,35 @@
         <p>William Shiber</p>
     </footer>
 
-    <script>
-        const columnSets = {
-            basic: [
-                { header: 'Date', key: 'date' },
-                { header: 'Away Team', key: 'away' },
-                { header: 'Predicted Away Score', key: 'awayScore' },
-                { header: 'Home Team', key: 'home' },
-                { header: 'Predicted Home Score', key: 'homeScore' },
-                { header: 'Predicted Winner', key: 'winner' },
-                { header: 'Predicted Win Margin', key: 'spread' },
-                { header: 'Confidence', key: 'confidence' },
-                { header: 'Value?', key: 'value' }
-            ],
-            moneyline: [
-                { header: 'Date', key: 'date' },
-                { header: 'Away Team', key: 'away' },
-                { header: 'Away ML Implied Prob', key: 'awayMLProb' },
-                { header: 'Home Team', key: 'home' },
-                { header: 'Home ML Implied Prob', key: 'homeMLProb' },
-                { header: 'Predicted Winner', key: 'winner' },
-                { header: 'Model Confidence', key: 'confidence' },
-                { header: 'Book Winner', key: 'bookWinner' },
-                { header: 'Value?', key: 'value' }
-
-            ],
-            spread: [
-                { header: 'Date', key: 'date' },
-                { header: 'Away Team', key: 'away' },
-                { header: 'Away Spread', key: 'awaySpread' },
-                { header: 'Away Spread Odds', key: 'awaySpreadOdds' },
-                { header: 'Home Team', key: 'home' },
-                { header: 'Home Spread', key: 'homeSpread' },
-                { header: 'Home Spread Odds', key: 'homeSpreadOdds' },
-                { header: 'Model Predicted Spread', key: 'spread' }
-            ],
-            overunder: [
-                { header: 'Date', key: 'date' },
-                { header: 'Teams', key: 'matchup' },
-                { header: 'Predicted Home Score', key: 'homeScore' },
-                { header: 'Predicted Away Score', key: 'awayScore' },
-                { header: 'Over Line', key: 'overLine' },
-                { header: 'Over Odds', key: 'overOdds' },
-                { header: 'Under Line', key: 'underLine' },
-                { header: 'Under Odds', key: 'underOdds' },
-            ]
-        };
-
-        let predictionsData = [];
-
-        async function loadPredictions() {
-            try {
-                const response = await fetch('nba_display.csv');
-                const data = await response.text();
-                
-                const rows = data.split('\n').slice(1);
-                predictionsData = rows.map(row => {
-                    const cols = row.split(',');
-                    return {
-                        date: cols[0],
-                        away: cols[1],
-                        awayScore: cols[2],
-                        home: cols[3],
-                        homeScore: cols[4],
-                        winner: cols[5],
-                        spread: cols[6],
-                        confidence: cols[7],
-                        awayML: cols[8],
-                        awayMLOdds: cols[9],
-                        awayMLProb: cols[10],
-                        homeML: cols[11],
-                        homeMLOdds: cols[12],
-                        homeMLProb: cols[13],
-                        awaySpread: cols[14],
-                        awaySpreadOdds: cols[15],
-                        awaySpreadProb: cols[16],
-                        homeSpread: cols[17],
-                        homeSpreadOdds: cols[18],
-                        homeSpreadProb: cols[19],
-                        overLine: cols[20],
-                        overOdds: cols[21],
-                        overProb: cols[22],
-                        underLine: cols[23],
-                        underOdds: cols[24],
-                        underProb: cols[25],
-                        matchup: `${cols[1]} @ ${cols[3]}`,
-                        bookWinner: cols[26],
-                        value: cols[27]
-                    };
-                });
-                
-                updateTableView();
-                
-                // Set last updated date from first row
-                const updateDateTime = new Date(predictionsData[0].date + 'T00:00:00-05:00');
-                document.getElementById('lastUpdated').textContent = updateDateTime.toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric'
-                });
-            } catch (error) {
-                console.error('Error loading predictions:', error);
-                document.getElementById('lastUpdated').textContent = 'Error loading date';
-            }
+    <style>
+        .offseason-message {
+            text-align: center;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
         }
 
-        function updateTableView() {
-            const viewType = document.getElementById('viewType').value;
-            const columns = columnSets[viewType];
-            
-            // Update table headers
-            const thead = document.querySelector('thead tr');
-            thead.innerHTML = columns.map(col => `<th>${col.header}</th>`).join('');
-            
-            // Update table body
-            const tbody = document.getElementById('predictions-body');
-            tbody.innerHTML = predictionsData.map(row => {
-                if (!row.date) return ''; // Skip empty rows
-                const gameDateTime = new Date(row.date + 'T00:00:00-05:00');
-                const formattedDate = gameDateTime.toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric'
-                });
-                
-                return `<tr>${columns.map(col => {
-                    let value = col.key === 'date' ? formattedDate : row[col.key];
-                    if (typeof value === 'string' && !isNaN(parseFloat(value))) {
-                        value = parseFloat(value).toFixed(1);
-                    }
-                    return `<td>${value || ''}</td>`;
-                }).join('')}</tr>`;
-            }).join('');
+        .offseason-message h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
         }
 
-        loadPredictions();
-    </script>
+        .previous-season-btn {
+            display: inline-block;
+            background-color: #34a0a4;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .previous-season-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </body>
 </html>
